@@ -116,7 +116,7 @@ public class Login extends javax.swing.JFrame {
 
         jLabel1.setFont(new java.awt.Font("Segoe UI Historic", 0, 12)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("Starbucks");
+        jLabel1.setText(" STARBUCKS");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -128,9 +128,9 @@ public class Login extends javax.swing.JFrame {
                         .addGap(283, 283, 283)
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(354, 354, 354)
+                        .addGap(334, 334, 334)
                         .addComponent(jLabel1)))
-                .addContainerGap(293, Short.MAX_VALUE))
+                .addContainerGap(307, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -139,7 +139,7 @@ public class Login extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addGap(18, 18, 18)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(147, Short.MAX_VALUE))
+                .addContainerGap(154, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
