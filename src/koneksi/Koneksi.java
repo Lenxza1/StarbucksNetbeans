@@ -17,7 +17,12 @@ public class Koneksi {
     Connection koneksi=null;
     public static Connection konek(){
         try{
-            
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection koneksi = DriverManager.getConnection("jdbc://localhost/Starbucks","root","");
+            return koneksi;
+        }catch(Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+            return null;
         }
     }
 }
