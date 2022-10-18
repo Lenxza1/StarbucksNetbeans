@@ -4,17 +4,90 @@
  */
 package starbucks;
 
+import java.sql.*;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.*;
+
 /**
  *
  * @author naufa
  */
 public class Kasir extends javax.swing.JFrame {
+    public Statement st;
+    public ResultSet rs;
+    public DefaultTableModel tabModel;
+    public DefaultTableModel model;
+    JTable jt = new JTable();
+    Connection cn = koneksi.Koneksi.konek ();
 
     /**
      * Creates new form Kasir
      */
     public Kasir() {
         initComponents();
+        judul();
+        tampilData("");
+        tampilDataPrint();
+        jt.setBounds(30,40,200,300);
+        CetakID.setEnabled(false);
+    }
+    
+    public void judul() {
+        Object[] judul = {
+            "ID Transaksi", "ID Menu" , "Jumlah", "Tanggal Transaksi", "Total Pembayaran", "Status"
+        };
+        tabModel = new DefaultTableModel (null, judul);
+        model = new DefaultTableModel (null,judul);
+        jTable.setModel(tabModel);
+    } 
+    
+     public void tampilData(String where) {
+          try {
+              st = cn.createStatement();
+              tabModel.getDataVector().removeAllElements();
+              tabModel.fireTableDataChanged();
+              rs = st.executeQuery("SELECT * FROM transaksi " + where);
+              
+          while (rs.next()) {
+              Object[] data = {
+              rs.getString("id"),
+              rs.getString("idMenu"),
+              rs.getString("jumlah"),
+              rs.getString("tglTransaksi"),
+              rs.getString("totalPembayaran"),
+              rs.getString("status"),
+          };
+          
+            tabModel.addRow(data);
+          } 
+      } catch(Exception e) {
+        e.printStackTrace();
+        }
+    }
+     
+     public void tampilDataPrint() {
+          try {
+              st = cn.createStatement();
+              model.getDataVector().removeAllElements();
+              model.fireTableDataChanged();
+              rs = st.executeQuery("SELECT * FROM transaksi where id= '" + id.getText() + "'");
+              
+          while (rs.next()) {
+              Object[] data = {
+              rs.getString("id"),
+              rs.getString("idMenu"),
+              rs.getString("jumlah"),
+              rs.getString("tglTransaksi"),
+              rs.getString("totalPembayaran"),
+              rs.getString("status"),
+          };
+          
+            model.addRow(data);
+          } 
+      } catch(Exception e) {
+        e.printStackTrace();
+        }
     }
 
     /**
@@ -28,13 +101,21 @@ public class Kasir extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jTable = new javax.swing.JTable();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        StatusDropdown = new javax.swing.JComboBox<>();
+        Update = new javax.swing.JButton();
+        CetakAll = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
+        id = new javax.swing.JTextField();
+        CetakID = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(0, 51, 51));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null},
                 {null, null, null, null, null, null},
@@ -45,7 +126,58 @@ public class Kasir extends javax.swing.JFrame {
                 "id", "idMenu", "jumlah", "tglTransaksi", "totalPembayaran", "status"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTableMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(jTable);
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setText("Transaksi");
+
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setText("Status Transaksi");
+
+        StatusDropdown.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Belum Selesai", "Selesai" }));
+
+        Update.setBackground(new java.awt.Color(0, 98, 65));
+        Update.setForeground(new java.awt.Color(255, 255, 255));
+        Update.setText("Update");
+        Update.setPreferredSize(new java.awt.Dimension(154, 22));
+        Update.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                UpdateActionPerformed(evt);
+            }
+        });
+
+        CetakAll.setBackground(new java.awt.Color(0, 98, 65));
+        CetakAll.setForeground(new java.awt.Color(255, 255, 255));
+        CetakAll.setText("Cetak Seluruh Transaksi");
+        CetakAll.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CetakAllActionPerformed(evt);
+            }
+        });
+
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel3.setText("ID Transaksi");
+
+        id.setEditable(false);
+        id.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        id.setBorder(javax.swing.BorderFactory.createEtchedBorder(null, java.awt.Color.gray));
+
+        CetakID.setBackground(new java.awt.Color(0, 98, 65));
+        CetakID.setForeground(new java.awt.Color(255, 255, 255));
+        CetakID.setText("Cetak Transaksi Berdasarkan ID");
+        CetakID.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CetakIDActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -54,14 +186,46 @@ public class Kasir extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(22, 22, 22)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 740, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(525, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 197, Short.MAX_VALUE)
+                        .addComponent(jLabel1)
+                        .addGap(183, 183, 183))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel2)
+                            .addComponent(CetakAll, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel3)
+                            .addComponent(id)
+                            .addComponent(Update, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(StatusDropdown, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(CetakID, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(21, 21, 21)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(278, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(StatusDropdown, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(22, 22, 22)
+                        .addComponent(Update, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(CetakAll, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel3)
+                        .addGap(18, 18, 18)
+                        .addComponent(id, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(CetakID, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(72, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -77,6 +241,46 @@ public class Kasir extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void CetakAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CetakAllActionPerformed
+       try {
+            if (! jTable.print()) {
+                JOptionPane.showMessageDialog(null, "Print Dibatalkan");
+            }
+        } catch (java.awt.print.PrinterException e) {
+            System.err.format("Cannot print %s%n", e.getMessage());
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+    }//GEN-LAST:event_CetakAllActionPerformed
+
+    private void UpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UpdateActionPerformed
+        try{
+            st = cn.createStatement();
+            st.executeUpdate("UPDATE transaksi set "
+            +"status='"          +StatusDropdown.getSelectedItem() + "'where " + "id='"+id.getText()+"'");
+            tampilData("");
+                JOptionPane.showMessageDialog(null, "Update Berhasil");
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_UpdateActionPerformed
+
+    private void CetakIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CetakIDActionPerformed
+        try {
+            if (! jt.print()) {
+                JOptionPane.showMessageDialog(null, "Print Dibatalkan");
+            }
+        } catch (java.awt.print.PrinterException e) {
+            System.err.format("Cannot print %s%n", e.getMessage());
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+    }//GEN-LAST:event_CetakIDActionPerformed
+
+    private void jTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableMouseClicked
+        id.setText(jTable.getValueAt(jTable.getSelectedRow(), 0).toString());
+        StatusDropdown.setSelectedItem(jTable.getValueAt(jTable.getSelectedRow(), 5).toString());
+        CetakID.setEnabled(true);
+    }//GEN-LAST:event_jTableMouseClicked
 
     /**
      * @param args the command line arguments
@@ -114,8 +318,16 @@ public class Kasir extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton CetakAll;
+    private javax.swing.JButton CetakID;
+    private javax.swing.JComboBox<String> StatusDropdown;
+    private javax.swing.JButton Update;
+    private javax.swing.JTextField id;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTable;
     // End of variables declaration//GEN-END:variables
 }
