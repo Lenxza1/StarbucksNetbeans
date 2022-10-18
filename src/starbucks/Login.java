@@ -74,6 +74,11 @@ public class Login extends javax.swing.JFrame {
         });
 
         Signupbtn.setText("Signup");
+        Signupbtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SignupbtnActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -192,6 +197,12 @@ public class Login extends javax.swing.JFrame {
         } catch (Exception e) {
         }
     }//GEN-LAST:event_LoginbtnActionPerformed
+
+    private void SignupbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SignupbtnActionPerformed
+       Signup su = new Signup();
+       su.setVisible(true);
+       this.dispose();
+    }//GEN-LAST:event_SignupbtnActionPerformed
 
     /**
      * @param args the command line arguments
