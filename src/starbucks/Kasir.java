@@ -18,28 +18,39 @@ public class Kasir extends javax.swing.JFrame {
     public ResultSet rs;
     public DefaultTableModel tabModel;
     public DefaultTableModel model;
-    JTable jt = new JTable();
     Connection cn = koneksi.Koneksi.konek ();
+    JTable jt = new JTable();
+    JPanel f = new JPanel();
+        
+    
 
     /**
      * Creates new form Kasir
      */
-    public Kasir() {
+    public Kasir() {    
         initComponents();
         judul();
         tampilData("");
         tampilDataPrint();
-        jt.setBounds(30,40,200,300);
         CetakID.setEnabled(false);
+        Deletebtn.setEnabled(false);
+    }
+    
+    public void createTab(){
+       jt.setBounds(30,40,200,300);
+       f.add(jt);
+       f.setSize(300, 400);
+       f.setVisible(true);
     }
     
     public void judul() {
         Object[] judul = {
-            "ID Transaksi", "ID Menu" , "Jumlah", "Tanggal Transaksi", "Total Pembayaran", "Status"
+            "ID Transaksi", "ID Menu" , "Nama Menu","Jumlah", "Tanggal Transaksi", "Total Pembayaran", "Status"
         };
         tabModel = new DefaultTableModel (null, judul);
         model = new DefaultTableModel (null,judul);
         jTable.setModel(tabModel);
+        jt.setModel(model);
     } 
     
      public void tampilData(String where) {
@@ -53,6 +64,7 @@ public class Kasir extends javax.swing.JFrame {
               Object[] data = {
               rs.getString("id"),
               rs.getString("idMenu"),
+              rs.getString("nmMenu"),
               rs.getString("jumlah"),
               rs.getString("tglTransaksi"),
               rs.getString("totalPembayaran"),
@@ -110,6 +122,9 @@ public class Kasir extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         id = new javax.swing.JTextField();
         CetakID = new javax.swing.JButton();
+        Closebtn = new javax.swing.JButton();
+        Logoutbtn = new javax.swing.JButton();
+        Deletebtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -117,13 +132,13 @@ public class Kasir extends javax.swing.JFrame {
 
         jTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
             },
             new String [] {
-                "id", "idMenu", "jumlah", "tglTransaksi", "totalPembayaran", "status"
+                "id", "idMenu", "Nama Menu", "Jumal", "tglTransaksi", "totalPembayaran", "status"
             }
         ));
         jTable.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -179,6 +194,33 @@ public class Kasir extends javax.swing.JFrame {
             }
         });
 
+        Closebtn.setBackground(new java.awt.Color(0, 102, 102));
+        Closebtn.setForeground(new java.awt.Color(255, 255, 255));
+        Closebtn.setText("Close");
+        Closebtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ClosebtnActionPerformed(evt);
+            }
+        });
+
+        Logoutbtn.setBackground(new java.awt.Color(0, 102, 102));
+        Logoutbtn.setForeground(new java.awt.Color(255, 255, 255));
+        Logoutbtn.setText("Logout");
+        Logoutbtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                LogoutbtnActionPerformed(evt);
+            }
+        });
+
+        Deletebtn.setBackground(new java.awt.Color(0, 98, 65));
+        Deletebtn.setForeground(new java.awt.Color(255, 255, 255));
+        Deletebtn.setText("Delete");
+        Deletebtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                DeletebtnActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -200,8 +242,15 @@ public class Kasir extends javax.swing.JFrame {
                             .addComponent(id)
                             .addComponent(Update, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(StatusDropdown, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(CetakID, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(CetakID, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(Deletebtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(1085, 1085, 1085)
+                .addComponent(Logoutbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(Closebtn, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -223,9 +272,15 @@ public class Kasir extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(id, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(CetakID, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(CetakID, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(Deletebtn, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(72, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(Closebtn, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Logoutbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(23, 23, 23))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -266,9 +321,12 @@ public class Kasir extends javax.swing.JFrame {
     }//GEN-LAST:event_UpdateActionPerformed
 
     private void CetakIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CetakIDActionPerformed
+        createTab();
         try {
+            
             if (! jt.print()) {
                 JOptionPane.showMessageDialog(null, "Print Dibatalkan");
+                jt.setVisible(false);
             }
         } catch (java.awt.print.PrinterException e) {
             System.err.format("Cannot print %s%n", e.getMessage());
@@ -280,7 +338,35 @@ public class Kasir extends javax.swing.JFrame {
         id.setText(jTable.getValueAt(jTable.getSelectedRow(), 0).toString());
         StatusDropdown.setSelectedItem(jTable.getValueAt(jTable.getSelectedRow(), 5).toString());
         CetakID.setEnabled(true);
+        Deletebtn.setEnabled(true);
     }//GEN-LAST:event_jTableMouseClicked
+
+    private void ClosebtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ClosebtnActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_ClosebtnActionPerformed
+
+    private void LogoutbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LogoutbtnActionPerformed
+        Login lo = new Login();
+        lo.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_LogoutbtnActionPerformed
+
+    private void DeletebtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DeletebtnActionPerformed
+        try{
+            int jawab;
+
+            if ((jawab = JOptionPane.showConfirmDialog(null, "ingin menghapus data?","Konfirmasi",JOptionPane.YES_NO_OPTION)) == 0) {
+                st = cn.createStatement();
+                st.executeUpdate("DELETE FROM transaksi WHERE id='"
+                    + id.getText() + "'");
+            }
+            JOptionPane.showMessageDialog(null, "Berhasil");
+            tampilData("");
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, e);
+        }
+    }//GEN-LAST:event_DeletebtnActionPerformed
 
     /**
      * @param args the command line arguments
@@ -320,6 +406,9 @@ public class Kasir extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton CetakAll;
     private javax.swing.JButton CetakID;
+    private javax.swing.JButton Closebtn;
+    private javax.swing.JButton Deletebtn;
+    private javax.swing.JButton Logoutbtn;
     private javax.swing.JComboBox<String> StatusDropdown;
     private javax.swing.JButton Update;
     private javax.swing.JTextField id;

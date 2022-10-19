@@ -4,11 +4,21 @@
  */
 package starbucks;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author naufa
  */
 public class Pelanggan extends javax.swing.JFrame {
+    public Statement st;
+    public ResultSet rs;
+    public DefaultTableModel tabModel;
+    Connection cn = koneksi.Koneksi.konek();
 
     /**
      * Creates new form Pelanggan
@@ -67,6 +77,7 @@ public class Pelanggan extends javax.swing.JFrame {
         jLabel18 = new javax.swing.JLabel();
         jLabel19 = new javax.swing.JLabel();
         Espressobtn = new javax.swing.JButton();
+        Logoutbtn = new javax.swing.JButton();
 
         jPanel2.setBackground(new java.awt.Color(0, 98, 65));
         jPanel2.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.LOWERED, new java.awt.Color(204, 255, 255), new java.awt.Color(204, 255, 255), java.awt.Color.white, new java.awt.Color(204, 255, 255)));
@@ -451,6 +462,15 @@ public class Pelanggan extends javax.swing.JFrame {
                 .addContainerGap(36, Short.MAX_VALUE))
         );
 
+        Logoutbtn.setBackground(new java.awt.Color(0, 102, 102));
+        Logoutbtn.setForeground(new java.awt.Color(255, 255, 255));
+        Logoutbtn.setText("Logout");
+        Logoutbtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                LogoutbtnActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -470,8 +490,13 @@ public class Pelanggan extends javax.swing.JFrame {
                 .addContainerGap(143, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel1)
-                .addGap(551, 551, 551))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(548, 548, 548))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(Logoutbtn)
+                        .addContainerGap())))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -486,7 +511,9 @@ public class Pelanggan extends javax.swing.JFrame {
                     .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(383, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 355, Short.MAX_VALUE)
+                .addComponent(Logoutbtn)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -518,26 +545,64 @@ public class Pelanggan extends javax.swing.JFrame {
 
     private void VerandabtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VerandabtnActionPerformed
         try {
-            
+            st = cn.createStatement();
+            st.executeUpdate("INSERT INTO transaksi (idMenu, jumlah, totalPembayaran, status) VALUES('1','1','100000','Belum Selesai')");
+        JOptionPane.showMessageDialog(null, "Berhasil");
         } catch (Exception e) {
-        }
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, e);
+        }      
     }//GEN-LAST:event_VerandabtnActionPerformed
 
     private void MochabtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MochabtnActionPerformed
-        // TODO add your handling code here:
+        try {
+            st = cn.createStatement();
+            st.executeUpdate("INSERT INTO transaksi (idMenu, jumlah, totalPembayaran, status) VALUES('2','1','100000','Belum Selesai')");
+        JOptionPane.showMessageDialog(null, "Berhasil");
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, e);
+        } 
     }//GEN-LAST:event_MochabtnActionPerformed
 
     private void MistobtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MistobtnActionPerformed
-        // TODO add your handling code here:
+        try {
+            st = cn.createStatement();
+            st.executeUpdate("INSERT INTO transaksi (idMenu, jumlah, totalPembayaran, status) VALUES('3','1','100000','Belum Selesai')");
+        JOptionPane.showMessageDialog(null, "Berhasil");
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, e);
+        } 
     }//GEN-LAST:event_MistobtnActionPerformed
 
     private void CappuccinobtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CappuccinobtnActionPerformed
-        // TODO add your handling code here:
+        try {
+            st = cn.createStatement();
+            st.executeUpdate("INSERT INTO transaksi (idMenu, jumlah, totalPembayaran, status) VALUES('4','1','100000','Belum Selesai')");
+        JOptionPane.showMessageDialog(null, "Berhasil");
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, e);
+        } 
     }//GEN-LAST:event_CappuccinobtnActionPerformed
 
     private void EspressobtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EspressobtnActionPerformed
-        // TODO add your handling code here:
+        try {
+            st = cn.createStatement();
+            st.executeUpdate("INSERT INTO transaksi (idMenu, jumlah, totalPembayaran, status) VALUES('5','1','100000','Belum Selesai')");
+        JOptionPane.showMessageDialog(null, "Berhasil");
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, e);
+        } 
     }//GEN-LAST:event_EspressobtnActionPerformed
+
+    private void LogoutbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LogoutbtnActionPerformed
+        Login lo = new Login();
+        lo.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_LogoutbtnActionPerformed
 
     /**
      * @param args the command line arguments
@@ -578,6 +643,7 @@ public class Pelanggan extends javax.swing.JFrame {
     private javax.swing.JButton Cappuccinobtn;
     private javax.swing.JButton Espressobtn;
     private javax.swing.JButton Loginbtn;
+    private javax.swing.JButton Logoutbtn;
     private javax.swing.JButton Mistobtn;
     private javax.swing.JButton Mochabtn;
     private javax.swing.JButton Signupbtn;
