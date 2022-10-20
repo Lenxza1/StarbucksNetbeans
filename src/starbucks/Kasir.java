@@ -323,7 +323,6 @@ public class Kasir extends javax.swing.JFrame {
     private void CetakIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CetakIDActionPerformed
         createTab();
         try {
-            
             if (! jt.print()) {
                 JOptionPane.showMessageDialog(null, "Print Dibatalkan");
                 jt.setVisible(false);

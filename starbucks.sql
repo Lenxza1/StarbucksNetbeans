@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 18, 2022 at 05:57 AM
+-- Generation Time: Oct 20, 2022 at 06:19 AM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -43,7 +43,12 @@ INSERT INTO `menu` (`idMenu`, `nmMenu`, `harga`, `qty`) VALUES
 (2, 'Caffe Mocha', 55000, 100),
 (3, 'Caffe Misto', 55000, 100),
 (4, 'Cappuccino', 60000, 100),
-(5, 'Espresso', 60000, 100);
+(5, 'Espresso', 60000, 100),
+(6, 'Hot Chocolate', 55000, 100),
+(7, 'Chai Tea Latte', 55000, 100),
+(8, 'Macha Tea Latte', 60000, 100),
+(9, 'Nitro Cold Brew', 50000, 100),
+(10, 'Iced Coffee with Milk', 55000, 100);
 
 -- --------------------------------------------------------
 
@@ -54,11 +59,33 @@ INSERT INTO `menu` (`idMenu`, `nmMenu`, `harga`, `qty`) VALUES
 CREATE TABLE `transaksi` (
   `id` int(11) NOT NULL,
   `idMenu` int(11) NOT NULL,
+  `nmMenu` varchar(255) NOT NULL DEFAULT 'Nama Menu',
   `jumlah` int(11) NOT NULL,
   `tglTransaksi` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `totalPembayaran` int(11) NOT NULL,
   `status` enum('Selesai','Belum Selesai') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `transaksi`
+--
+
+INSERT INTO `transaksi` (`id`, `idMenu`, `nmMenu`, `jumlah`, `tglTransaksi`, `totalPembayaran`, `status`) VALUES
+(8, 1, 'Veranda Blend', 1, '2022-10-19 06:13:30', 100000, 'Belum Selesai'),
+(9, 1, 'Veranda Blend', 1, '2022-10-19 06:13:35', 100000, 'Belum Selesai'),
+(10, 6, 'Hot Chocolate', 1, '2022-10-20 03:58:58', 100000, 'Belum Selesai'),
+(11, 4, 'Cappuccino', 1, '2022-10-20 04:14:39', 100000, 'Selesai');
+
+--
+-- Triggers `transaksi`
+--
+DELIMITER $$
+CREATE TRIGGER `namaMakanan` BEFORE INSERT ON `transaksi` FOR EACH ROW BEGIN
+set new.nmMenu = (select menu.nmMenu from menu where 
+new.idMenu = menu.idMenu);
+END
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -95,8 +122,7 @@ ALTER TABLE `menu`
 -- Indexes for table `transaksi`
 --
 ALTER TABLE `transaksi`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `idMenu` (`idMenu`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `user`
@@ -112,23 +138,13 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `transaksi`
 --
 ALTER TABLE `transaksi`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
--- Constraints for dumped tables
---
-
---
--- Constraints for table `transaksi`
---
-ALTER TABLE `transaksi`
-  ADD CONSTRAINT `transaksi_ibfk_1` FOREIGN KEY (`idMenu`) REFERENCES `menu` (`idMenu`) ON DELETE CASCADE ON UPDATE NO ACTION;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
